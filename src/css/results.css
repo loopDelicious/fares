@@ -1,0 +1,9 @@
+.lyft-results {
+    text-align: left;
+    width: 50%;
+    margin: 0 auto;
+}
+
+.lyft-results  h4 {
+    margin-bottom: 5px;
+}

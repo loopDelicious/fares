@@ -25,16 +25,13 @@ app.get('/', function (req, res) {
     var client_id = key.lyftClientID;
     var client_secret = key.lyftSecret;
     var data = {"grant_type": "client_credentials", "scope": "public"};
-    var oauth = {
-        client_id: client_id,
-        client_secret: client_secret
-    };
+    var auth = new Buffer(client_id + ':' + client_secret).toString('base64');
 
     request.post({
         url: url,
-        oauth: oauth,
         body: JSON.stringify(data),
         headers: {
+            Authorization: 'Basic ' + auth,
             'Content-Type': 'application/json'
         }
     }, function (error, response, body) {
@@ -45,6 +42,51 @@ app.get('/', function (req, res) {
             res.status(400).send(body);
         }
     });
+});
+
+// POST request to retrieve ETA
+app.post('/getEta', function (req, res) {
+
+    // Call google geocoding API to translate address to lat-lng
+    var lyft_token = req.body.token;
+
+    var googleKey = key.googleGeocoding;
+    var address = req.body.address;
+    var geocodeUrl = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + address + '&key=' + googleKey;
+
+    request.post({
+        url: geocodeUrl,
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    }, function (error, response) {
+        var geocode = JSON.parse(response.body);
+
+        var lat = geocode.results[0].geometry.location.lat;
+        var lng = geocode.results[0].geometry.location.lng;
+
+        var lyft_url = 'https://api.lyft.com/v1/eta?lat=' + lat + '&lng=' + lng;
+
+        // Call lyft to retrieve ETA
+        request.get({
+            url: lyft_url,
+            headers: {
+                Authorization: 'Bearer ' + lyft_token,
+                'Content-Type': 'application/json'
+            }
+        }, function (error, response, body) {
+            if (!error && response.statusCode == 200) {
+                res.send(body);
+            }
+            else {
+                res.status(400).send(body);
+            }
+        });
+
+    });
+
+
+
 });
 
 app.listen(process.env.PORT || 4500);
