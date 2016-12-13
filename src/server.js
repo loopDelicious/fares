@@ -44,12 +44,10 @@ app.get('/', function (req, res) {
     });
 });
 
-// POST request to retrieve ETA
-app.post('/getEta', function (req, res) {
+// POST request to geocode address;
+app.post('/geocode', function (req, res) {
 
     // Call google geocoding API to translate address to lat-lng
-    var lyft_token = req.body.token;
-
     var googleKey = key.googleGeocoding;
     var address = req.body.address;
     var geocodeUrl = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + address + '&key=' + googleKey;
@@ -65,27 +63,72 @@ app.post('/getEta', function (req, res) {
         var lat = geocode.results[0].geometry.location.lat;
         var lng = geocode.results[0].geometry.location.lng;
 
-        var lyft_url = 'https://api.lyft.com/v1/eta?lat=' + lat + '&lng=' + lng;
+        var coordinates = {
+            lat: lat,
+            lng: lng
+        };
 
-        // Call lyft to retrieve ETA
-        request.get({
-            url: lyft_url,
-            headers: {
-                Authorization: 'Bearer ' + lyft_token,
-                'Content-Type': 'application/json'
-            }
-        }, function (error, response, body) {
-            if (!error && response.statusCode == 200) {
-                res.send(body);
-            }
-            else {
-                res.status(400).send(body);
-            }
-        });
-
+        if (!error && response.statusCode == 200) {
+            res.send(coordinates);
+        }
+        else {
+            res.status(400).send(body);
+        }
     });
+});
 
+// POST request to retrieve ETA
+app.post('/getEta', function (req, res) {
 
+    var lyft_token = req.body.token;
+    var lat = req.body.lat;
+    var lng = req.body.lng;
+
+    var lyft_url = 'https://api.lyft.com/v1/eta?lat=' + lat + '&lng=' + lng;
+
+    // Call lyft to retrieve ETA
+    request.get({
+        url: lyft_url,
+        headers: {
+            Authorization: 'Bearer ' + lyft_token,
+            'Content-Type': 'application/json'
+        }
+    }, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            res.send(body);
+        }
+        else {
+            res.status(400).send(body);
+        }
+    });
+});
+
+// POST request to retrieve Cost info
+app.post('/getCost', function (req, res) {
+
+    var lyft_token = req.body.token;
+    var start_lat = req.body.start_lat;
+    var start_lng = req.body.start_lng;
+    var end_lat = req.body.end_lat;
+    var end_lng = req.body.end_lng;
+
+    var lyft_url = 'https://api.lyft.com/v1/cost?start_lat=' + start_lat + '&start_lng=' + start_lng + '&end_lat=' + end_lat + '&end_lng=' + end_lng;
+
+    // Call lyft to retrieve Cost info
+    request.get({
+        url: lyft_url,
+        headers: {
+            Authorization: 'Bearer ' + lyft_token,
+            'Content-Type': 'application/json'
+        }
+    }, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            res.send(body);
+        }
+        else {
+            res.status(400).send(body);
+        }
+    });
 
 });
 
