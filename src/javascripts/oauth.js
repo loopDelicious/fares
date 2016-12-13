@@ -9,6 +9,10 @@ class Oauth extends Component {
         oauth_token: null,
     };
 
+    componentDidMount() {
+        this.handleGetOauth();
+    };
+
     handleGetOauth = () => {
         $.ajax({
             url: 'http://' + this.host + ':4500/',
@@ -19,13 +23,12 @@ class Oauth extends Component {
             }
         });
     };
-
-
+    
     render() {
         return (
             <div>
-
-                <button id="get-oauth" onClick={this.handleGetOauth}>Get Oauth</button><br/>
+                {/*replace button click with componentDidMount to retrieve oauth token*/}
+                {/*<button id="get-oauth" onClick={this.handleGetOauth}>Get Oauth</button><br/>*/}
 
             </div>
         )

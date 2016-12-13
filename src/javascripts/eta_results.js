@@ -8,7 +8,7 @@ class Result extends Component {
         var results = this.props.results.map( (result, i) => {
 
             var secs = result.eta_seconds;
-            var mins = secs / 60;
+            var mins = Math.round(secs / 60);
 
             return (
                 <li key={i}>{result.is_valid_estimate ?

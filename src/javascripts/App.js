@@ -21,9 +21,17 @@ class App extends Component {
             <div className="App">
                 <Oauth sendOauth={this.oauthVerification.bind(this)} />
                 <hr />
-                <Costdisplay oauth={this.state.oauth} />
-                <hr />
-                <Etadisplay oauth={this.state.oauth} />
+
+                {this.state.oauth ?
+
+                <div className="other-apis">
+                    <Costdisplay oauth={this.state.oauth} />
+                    <hr />
+                    <Etadisplay oauth={this.state.oauth} />
+                </div>
+
+                : null}
+
             </div>
         );
     }

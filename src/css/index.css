@@ -7,3 +7,7 @@ body {
 hr {
   margin-bottom: 20px;
 }
+
+.divider {
+  width: 400px;
+}

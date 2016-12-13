@@ -10,7 +10,9 @@ class Costdisplay extends Component {
         results: null,
     };
 
-    handleGeocode = (address) => {
+    geocodeResponses = {};
+
+    handleGeocode = (address, type) => {
         var google_data = {
             address: address
         };
@@ -22,10 +24,45 @@ class Costdisplay extends Component {
             data: JSON.stringify(google_data),
             contentType: 'application/json',
             success: (response) => {
-
-                return response;
+                this.handleLyftCall(response, type);
             }
         });
+
+
+    };
+
+    handleLyftCall = (response, type) => {
+
+        this.geocodeResponses[type] = response;
+
+        if (this.geocodeResponses.start && this.geocodeResponses.end) {
+
+            var lyft_data = {
+                start_lat: this.geocodeResponses.start.lat,
+                start_lng: this.geocodeResponses.start.lng,
+                end_lat: this.geocodeResponses.end.lat,
+                end_lng: this.geocodeResponses.end.lng,
+                token: this.props.oauth
+            };
+
+            $.ajax({
+                url: 'http://' + this.host + ':4500/getCost',
+                type: 'post',
+                data: JSON.stringify(lyft_data),
+                contentType: 'application/json',
+                success: (response) => {
+                    var lyft_response = response.cost_estimates;
+
+                    this.setState({
+                        results: lyft_response
+                    });
+
+                    this.refs['user_form'].reset();
+                }
+            });
+        }
+
+
     };
 
     handleForm = (e) => {
@@ -34,34 +71,9 @@ class Costdisplay extends Component {
         var origin = this.refs['origin-address'].value;
         var destination = this.refs['destination-address'].value;
 
-        var start_coord = this.handleGeocode(origin);
-        var end_coord = this.handleGeocode(destination);
+        this.handleGeocode(origin, 'start');
+        this.handleGeocode(destination, 'end');
 
-        console.log(typeof(start_coord));
-        console.log(end_coord);
-
-        // var lyft_data = {
-        //     start_lat: start_coord.lat,
-        //     start_lng: start_coord.lng,
-        //     end_lat: end_coord.lat,
-        //     end_lng: end_coord.lng
-        // };
-
-        // $.ajax({
-        //     url: 'http://' + this.host + ':4500/getCost',
-        //     type: 'post',
-        //     data: JSON.stringify(lyft_data),
-        //     contentType: 'application/json',
-        //     success: (response) => {
-        //         var lyft_response = response.cost_estimates;
-        //
-        //         this.setState({
-        //             results: lyft_response
-        //         });
-        //
-        //         this.refs['user_form'].reset();
-        //     }
-        // });
     };
 
     render() {
