@@ -5,8 +5,8 @@ import './css/reset.css';
 import './css/variables.css';
 import './css/buttons.css';
 import './css/index.css';
-import './css/eta_display.css';
-import './css/eta_results.css';
+import './css/display.css';
+import './css/results.css';
 
 
 ReactDOM.render(

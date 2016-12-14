@@ -1,4 +1,17 @@
 .App {
-  text-align: center;
+    text-align: center;
+}
+
+.navbar-default {
+    height: 20px;
+}
+
+.navbar-brand {
+    background: url(../img/lyft.png) 0 50% no-repeat;
+    height: 75px;
+    display: block;
+    background-size: 100px 100px;
+    /*margin-left: 16px;*/
+    /*border-bottom: 1px solid lightgray;*/
 }
 

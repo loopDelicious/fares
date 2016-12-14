@@ -12,8 +12,11 @@ class Result extends Component {
 
             return (
                 <li key={i}>{result.is_valid_estimate ?
-                    <div>
-                        <h4>{result.display_name} : {mins} {mins > 1 ? 'minutes' : 'minute'}</h4>
+                    <div className="result clearfix">
+                        <i className="fa fa-car" />
+                        <div className="result-data">
+                            <h4>{result.display_name} : {mins} {mins > 1 ? 'minutes' : 'minute'}</h4>
+                        </div>
                     </div>
                     : null }
                 </li>
@@ -22,6 +25,7 @@ class Result extends Component {
 
         return (
             <ul className="lyft-results">
+                <h1>Estimated Time of Arrival to {this.props.location}</h1>
                 {results}
             </ul>
         )

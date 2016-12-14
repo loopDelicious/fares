@@ -23,7 +23,7 @@ class Oauth extends Component {
             }
         });
     };
-    
+
     render() {
         return (
             <div>

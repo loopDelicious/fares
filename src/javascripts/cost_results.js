@@ -19,13 +19,16 @@ class Result extends Component {
 
             return (
                 <li key={i}>{result.is_valid_estimate ?
-                    <div>
-                        <h4>{result.display_name} : {mins} {mins > 1 ? 'minutes' : 'minute'}</h4>
-                        <h3>Estimated Cost: ${min_dollars} to ${max_dollars} USD
-                            {result.primetime_percentage != "0%" ?
-                                <span> {result.primetime_percentage} with primetime pricing </span>
-                                : null }
-                        </h3>
+                    <div className="result clearfix">
+                        <i className="fa fa-car" />
+                        <div className="result-data">
+                            <h4>{result.display_name} : {mins} {mins > 1 ? 'minutes' : 'minute'}</h4>
+                            <h3>Estimated Cost: ${min_dollars} to ${max_dollars} USD
+                                {result.primetime_percentage != "0%" ?
+                                    <span> {result.primetime_percentage} with primetime pricing </span>
+                                    : null }
+                            </h3>
+                        </div>
                         <hr className="divider"/>
                     </div>
                     : null }
@@ -35,6 +38,7 @@ class Result extends Component {
 
         return (
             <ul className="lyft-results">
+                <h1>From {this.props.origin} to {this.props.destination}</h1>
                 {results}
             </ul>
         )

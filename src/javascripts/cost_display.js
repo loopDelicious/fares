@@ -8,9 +8,14 @@ class Costdisplay extends Component {
 
     state = {
         results: null,
+        origin: null,
+        destination: null,
+        error: null
     };
 
     geocodeResponses = {};
+
+    focus = true;
 
     handleGeocode = (address, type) => {
         var google_data = {
@@ -71,8 +76,21 @@ class Costdisplay extends Component {
         var origin = this.refs['origin-address'].value;
         var destination = this.refs['destination-address'].value;
 
-        this.handleGeocode(origin, 'start');
-        this.handleGeocode(destination, 'end');
+        if (origin && destination) {
+            this.setState({
+                origin: origin,
+                destination: destination,
+                error: null
+            });
+            this.handleGeocode(origin, 'start');
+            this.handleGeocode(destination, 'end');
+
+        } else {
+
+            this.setState({
+               error: 'Please enter Pickup Location and Destination.'
+            });
+        }
 
     };
 
@@ -81,12 +99,17 @@ class Costdisplay extends Component {
             <div>
 
                 <form id="cost-input" ref="user_form" onSubmit={this.handleForm} >
-                    <input type="text" placeholder="pickup location" ref="origin-address" /><br/>
+                    <input type="text" placeholder="pickup location" ref="origin-address" autoFocus={this.focus} /><br/>
                     <input type="text" placeholder="add destination" ref="destination-address" /><br/>
+                    {this.state.error ? <div><span>{this.state.error}</span><br/></div> : null}
                     <button id="get-cost" type='submit' >Get Cost</button>
                 </form>
 
-                { this.state.results ? <Result results={this.state.results} /> : null }
+                { this.state.results ? <Result
+                    results={this.state.results}
+                    origin={this.state.origin}
+                    destination={this.state.destination}
+                /> : null }
 
             </div>
         )
