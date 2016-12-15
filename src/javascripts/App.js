@@ -4,6 +4,7 @@ import Oauth from './oauth.js';
 import Nav from './nav.js';
 import Costdisplay from './cost_display.js';
 import Etadisplay from './eta_display.js';
+import Neardisplay from './near_display.js';
 
 class App extends Component {
 
@@ -31,6 +32,8 @@ class App extends Component {
                     <Costdisplay oauth={this.state.oauth} />
                     <hr />
                     <Etadisplay oauth={this.state.oauth} />
+                    <hr />
+                    <Neardisplay oauth={this.state.oauth} />
                 </div>
 
                 : null}

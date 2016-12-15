@@ -103,6 +103,32 @@ app.post('/getEta', function (req, res) {
     });
 });
 
+// POST request to retrieve locations of nearby drivers
+app.post('/getNearby', function (req, res) {
+
+    var lyft_token = req.body.token;
+    var lat = req.body.lat;
+    var lng = req.body.lng;
+
+    var lyft_url = 'https://api.lyft.com/v1/drivers?lat=' + lat + '&lng=' + lng;
+
+    // Call lyft to retrieve Nearby Drivers
+    request.get({
+        url: lyft_url,
+        headers: {
+            Authorization: 'Bearer ' + lyft_token,
+            'Content-Type': 'application/json'
+        }
+    }, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            res.send(body);
+        }
+        else {
+            res.status(400).send(body);
+        }
+    });
+});
+
 // POST request to retrieve Cost info
 app.post('/getCost', function (req, res) {
 
