@@ -109,6 +109,7 @@ class Costdisplay extends Component {
                     results={this.state.results}
                     origin={this.state.origin}
                     destination={this.state.destination}
+                    geocode={this.geocodeResponses}
                 /> : null }
 
             </div>
