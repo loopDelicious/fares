@@ -29,11 +29,12 @@ class App extends Component {
                 {this.state.oauth ?
 
                 <div className="other-apis">
-                    <Costdisplay oauth={this.state.oauth} />
-                    <hr />
                     <Etadisplay oauth={this.state.oauth} />
                     <hr />
                     <Neardisplay oauth={this.state.oauth} />
+                    <hr />
+                    <Costdisplay oauth={this.state.oauth} />
+                    <hr />
                 </div>
 
                 : null}

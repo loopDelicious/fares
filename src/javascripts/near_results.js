@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 
 class Result extends Component {
 
+    state = {
+        results: this.props.results
+    };
 
     render() {
 
@@ -11,9 +14,9 @@ class Result extends Component {
                 return cluster.locations[0];
             }); // array of locations returning 1 car from each location cluster
 
-            var coordinates = locations.map( (location) => {
+            var coordinates = locations.map( (location, i) => {
                return (
-                   <h5>{location.lat}, {location.lng}</h5>
+                   <h5 key={i}>{location.lat}, {location.lng}</h5>
                )
             });
 

@@ -20,3 +20,10 @@ i {
     text-transform: capitalize;
 }
 
+.map-canvas {
+    height: 400px;
+    width: 400px;
+    border: 1px solid var(--secondary-color);
+    margin-bottom: 30px;
+}
+

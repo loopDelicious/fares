@@ -9,10 +9,15 @@
     "body-parser": "^1.15.2",
     "bootstrap": "^3.3.7",
     "express": "^4.14.0",
+    "immutable": "^3.8.1",
     "jquery": "^3.1.1",
+    "leaflet": "^1.0.2",
+    "mapbox": "^1.0.0-beta5",
+    "mapbox-gl": "^0.28.0",
     "react": "^15.4.1",
     "react-bootstrap": "^0.30.7",
     "react-dom": "^15.4.1",
+    "react-map-gl": "^1.7.2",
     "request": "^2.79.0"
   },
   "scripts": {

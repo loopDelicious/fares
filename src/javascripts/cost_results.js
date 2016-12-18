@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Mapbox from './mapbox.js';
 
 class Result extends Component {
 
@@ -39,7 +40,9 @@ class Result extends Component {
         return (
             <ul className="lyft-results">
                 <h1>From {this.props.origin} to {this.props.destination}</h1>
+                <Mapbox />
                 {results}
+
             </ul>
         )
     }
