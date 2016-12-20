@@ -40,7 +40,7 @@ class Result extends Component {
         return (
             <ul className="lyft-results">
                 <h1>From {this.props.origin} to {this.props.destination}</h1>
-                <Mapbox origin={this.props.origin} destination={this.props.destination} />
+                <Mapbox geocode={this.props.geocode} />
                 {results}
 
             </ul>

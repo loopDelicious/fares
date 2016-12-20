@@ -150,12 +150,30 @@ app.post('/getCost', function (req, res) {
     }, function (error, response, body) {
         if (!error && response.statusCode == 200) {
             res.send(body);
-        }
-        else {
+        } else {
             res.status(400).send(body);
         }
     });
 
+});
+
+
+// TODO verify all front end calls don't contain secret tokens
+
+// GET request to retrieve Route Directions
+app.post('/getDirections', function (req, res) {
+
+    var mapbox_url = `https://api.mapbox.com/directions/v5/mapbox/driving/${req.body.start_lat},${req.body.start_lng};${req.body.end_lat},${req.body.end_lng}.json?access_token=${key.mapbox}&geometries=geojson&steps=true`
+
+    request.get({
+        url: mapbox_url,
+    }, function (error, response, body) {
+        if (!error && response. statuscode == 200) {
+            res.send(body);
+        } else {
+            res.status(400).send(body);
+        }
+    });
 });
 
 app.listen(process.env.PORT || 4500);
