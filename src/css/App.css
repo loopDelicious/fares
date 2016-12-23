@@ -15,3 +15,9 @@
     /*border-bottom: 1px solid lightgray;*/
 }
 
+iframe {
+    height: 480px;
+    width: 320px;
+    margin: 60px;
+}
+

@@ -4,8 +4,8 @@ For Development:
 
 Start React watcher
 
-    `$ npm start`
+    $ npm start
     
 Run server
 
-    `$ nodemon src/server.js`
+    $ nodemon src/server.js

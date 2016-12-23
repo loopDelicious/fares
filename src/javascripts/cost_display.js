@@ -15,7 +15,7 @@ class Costdisplay extends Component {
 
     geocodeResponses = {};
 
-    focus = true;
+    focus = false;
 
     handleGeocode = (address, type) => {
         var google_data = {

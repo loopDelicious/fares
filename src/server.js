@@ -161,17 +161,45 @@ app.post('/getCost', function (req, res) {
 // TODO verify all front end calls don't contain secret tokens
 
 // GET request to retrieve Route Directions
-app.post('/getDirections', function (req, res) {
+app.get('/getDirections', function (req, res) {
 
-    var mapbox_url = `https://api.mapbox.com/directions/v5/mapbox/driving/${req.body.start_lat},${req.body.start_lng};${req.body.end_lat},${req.body.end_lng}.json?access_token=${key.mapbox}&geometries=geojson&steps=true`
+    var mapbox_url = `https://api.mapbox.com/directions/v5/mapbox/driving/${req.body.start_lat},${req.body.start_lng};${req.body.end_lat},${req.body.end_lng}.json?access_token=${key.mapbox}&geometries=geojson&steps=true`;
 
     request.get({
         url: mapbox_url,
     }, function (error, response, body) {
-        if (!error && response. statuscode == 200) {
+        if (!error && response.statusCode == 200) {
             res.send(body);
         } else {
             res.status(400).send(body);
+        }
+    });
+});
+
+// POST request to create a Driver
+app.post('/setPin', function (req, res) {
+
+    var hypertrack_url = 'https://app.hypertrack.io/api/v1/drivers/';
+
+    request.post({
+        url: hypertrack_url,
+        body: {
+            "name": "Person1",
+            "vehicle_type": req.body.vehicle_type
+        },
+        headers: {
+            Authorization: 'token ' + key.hypertrack,
+            'Content-Type': 'application/json'
+        },
+        json: true
+    }, function (error, response, body) {
+
+        if (!error && response.statusCode == 200) {
+            res.send(body);
+        } else {
+            res.send(body);
+            // TODO: why doesn't this work, getting expected response, but 400 error
+            // res.status(400).send(body);
         }
     });
 });

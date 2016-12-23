@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import '../css/App.css';
 import Oauth from './oauth.js';
 import Nav from './nav.js';
+import Tracker from './live_track.js';
 import Costdisplay from './cost_display.js';
 import Etadisplay from './eta_display.js';
 import Neardisplay from './near_display.js';
@@ -25,6 +26,9 @@ class App extends Component {
                 <Oauth sendOauth={this.oauthVerification.bind(this)} />
 
                 <Nav />
+
+                <Tracker />
+                <hr />
 
                 {this.state.oauth ?
 

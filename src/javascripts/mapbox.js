@@ -23,7 +23,7 @@ class Mapbox extends Component {
     };
 
     // TODO bound map with origin and destination
-    
+
     getDirections = () => {
 
         var coords = {
@@ -35,7 +35,7 @@ class Mapbox extends Component {
 
         $.ajax({
             url: 'http://' + this.host + ':4500/getDirections',
-            type: 'post',
+            type: 'get',
             data: coords,
             contentType: 'application/json',
             success: (response) => {
@@ -58,3 +58,5 @@ class Mapbox extends Component {
 }
 
 export default Mapbox;
+
+
