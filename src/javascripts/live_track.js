@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import $ from 'jquery';
+import Result from './live_display.js';
 
 class Tracker extends Component {
 
@@ -10,7 +11,9 @@ class Tracker extends Component {
         pin2: null,
         error: null,
         driver: null,
-        selectedOption: 'walking'
+        selectedOption: 'walking',
+        results: null,
+        shortcode: 'trck.at/ERMLWD'
 
     };
 
@@ -25,28 +28,32 @@ class Tracker extends Component {
     handleForm = (e) => {
         e.preventDefault();
 
-        var address = this.refs['address'].value;
+        var origin = this.refs['origin-address'].value;
+        var destination = this.refs['destination-address'].value;
         var hyper_data = {
-            address: address,
+            address: origin,
+            destination: destination,
             vehicle_type: this.state.selectedOption,
         };
 
-        if (address) {
-            // create driver
+        if (origin && destination) {
+            // create driver and task
             $.ajax({
                 url: 'http://' + this.host + ':4500/setPin',
                 type: 'post',
                 data: JSON.stringify(hyper_data),
                 contentType: 'application/json',
                 success: (response) => {
-                    var driver_id = response.id;
+                    this.setState({
+                       results: response
+                    });
                 }
             });
 
         } else {
 
             this.setState({
-                error: 'Please enter a Pickup Location.'
+                error: 'Please enter current and destination locations.'
             });
         }
     };
@@ -55,15 +62,12 @@ class Tracker extends Component {
 
         return (
             <div>
-                {this.state.pin1 ?
-                    <iframe src="http://www.eta.fyi/SRUlR2">
-                        <p>Your browser does not support iframes.</p>
-                    </iframe>
-                :
+                {this.state.results == null ?
                     <div className="container">
                         <form id="pin1-input" ref="user_form" onSubmit={this.handleForm} >
+                            <input type="text" placeholder="set current location" ref="origin-address" autoFocus={this.focus} /><br/>
+                            <input type="text" placeholder="add destination" ref="destination-address" /><br/>
 
-                            <input type="text" placeholder="set current location" ref="address" autoFocus={this.focus}/>
 
                             {this.state.error ? <div><span>{this.state.error}</span><br/></div> : null}
 
@@ -84,9 +88,11 @@ class Tracker extends Component {
                                 /> driving</label>
                             </div>
 
-                            <button id="set-pin1" type='submit' >Set My Pin</button>
+                            <button id="start-1" type='submit' >Start my Trip</button>
                         </form>
                     </div>
+                :
+                    <Result shortcode={this.state.shortcode} />
                 }
             </div>
 

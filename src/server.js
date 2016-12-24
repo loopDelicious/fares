@@ -176,11 +176,13 @@ app.get('/getDirections', function (req, res) {
     });
 });
 
-// POST request to create a Driver
+// POST request to create a Driver and POST request to create a Task, and return a TRACKING URL
 app.post('/setPin', function (req, res) {
 
     var hypertrack_url = 'https://app.hypertrack.io/api/v1/drivers/';
+    var destination = req.body.destination;
 
+    // POST request to create a DRIVER
     request.post({
         url: hypertrack_url,
         body: {
@@ -192,16 +194,42 @@ app.post('/setPin', function (req, res) {
             'Content-Type': 'application/json'
         },
         json: true
-    }, function (error, response, body) {
+    }, function (error1, response1, body1) {
 
-        if (!error && response.statusCode == 200) {
-            res.send(body);
+        if (!error1 && response1.statusCode == 200) {
+
+            var hypertrack_url2 = 'https://app.hypertrack.io/api/v1/tasks/';
+
+            // POST request to create a TASK
+            request.post({
+                url: hypertrack_url2,
+                body: {
+                    driver_id: response1.id,
+                    vehicle_type: response1.vehicle_type,
+                    destination: destination
+                },
+                headers: {
+                    Authorization: 'token ' + key.hypertrack,
+                    'Content-Type': 'application/json'
+                },
+                json: true
+            }, function (error2, response2, body2) {
+                if (!error2 && response2.statusCode == 200) {
+                    response2.send(body2);
+                } else {
+                    response2.send(body2);
+
+                    // res.status(400).send(body);
+                }
+            })
         } else {
-            res.send(body);
+            res.send(body1);
             // TODO: why doesn't this work, getting expected response, but 400 error
             // res.status(400).send(body);
         }
     });
 });
+
+
 
 app.listen(process.env.PORT || 4500);

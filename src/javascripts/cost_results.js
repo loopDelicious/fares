@@ -11,7 +11,7 @@ class Result extends Component {
             var secs = result.estimated_duration_seconds;
             var mins = Math.round(secs / 60);
 
-            var multiplier = result.primetime_percentage != "0%" ? (1 + result.primetime_percentage) : 1;
+            var multiplier = result.primetime_percentage !== "0%" ? (1 + result.primetime_percentage) : 1;
             var min_cents = result.estimated_cost_cents_min * multiplier;
             var min_dollars = min_cents / 100;
 
@@ -25,7 +25,7 @@ class Result extends Component {
                         <div className="result-data">
                             <h4>{result.display_name} : {mins} {mins > 1 ? 'minutes' : 'minute'}</h4>
                             <h3>Estimated Cost: ${min_dollars} to ${max_dollars} USD
-                                {result.primetime_percentage != "0%" ?
+                                {result.primetime_percentage !== "0%" ?
                                     <span> {result.primetime_percentage} with primetime pricing </span>
                                     : null }
                             </h3>

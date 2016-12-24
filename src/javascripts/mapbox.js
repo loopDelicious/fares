@@ -17,8 +17,8 @@ class Mapbox extends Component {
             interactive: false,
             accessToken: this.mapboxToken
         }).addTo(map);
-        var origin = this.origin = L.marker([this.props.geocode.start.lat, this.props.geocode.start.lng]).addTo(map);
-        var destination = this.destination = L.marker([this.props.geocode.end.lat, this.props.geocode.end.lng]).addTo(map);
+        this.origin = L.marker([this.props.geocode.start.lat, this.props.geocode.start.lng]).addTo(map);
+        this.destination = L.marker([this.props.geocode.end.lat, this.props.geocode.end.lng]).addTo(map);
         this.getDirections();
     };
 
